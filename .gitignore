@@ -1,0 +1,31 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+build/
+.next/
+out/
+
+# environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# logs
+*.log
+logs/
+
+# test coverage
+coverage/
+
+# uploads and local data (backend)
+uploads/
+*.sqlite
+*.db
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
