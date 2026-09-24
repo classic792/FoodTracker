@@ -1,8 +1,8 @@
 import type React from "react";
 
 const variants = {
-  primary: 'bg-blue-900 text-white hover:bg-blue-800 focus:ring-blue-300',
-  secondary: 'bg-white text-blue-900 border border-blue-900 hover:bg-blue-50 focus:ring-blue-200',
+  primary: 'bg-green-500 text-white hover:bg-green-800 focus:ring-green-300',
+  secondary: 'bg-white text-green-900 border border-green-900 hover:bg-green-50 focus:ring-green-200',
   ghost: 'bg-transparent text-slate-700 hover:bg-slate-100 focus:ring-slate-200',
   danger: 'bg-red-600 text-white hover:bg-red-500 focus:ring-red-200',
 };
