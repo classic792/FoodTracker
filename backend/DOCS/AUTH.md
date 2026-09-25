@@ -64,7 +64,7 @@ Other centralized errors use the same envelope: `400 VALIDATION_ERROR`, `400 INV
 
 ## Inventory routes
 
-Product and storage-location endpoints under `/api/products` and `/api/storage-locations` are mounted behind `requireAuth` in `index.js` and use `Cache-Control: no-store`. Both accept Bearer tokens or cookies. See [PRODUCTS.md](./PRODUCTS.md) and [STORAGE_LOCATIONS.md](./STORAGE_LOCATIONS.md) for their request/response contracts. Batches and stock movements remain future work. Mount any future inventory router behind the shared guard, before the 404 handler:
+Product, storage-location, and batch endpoints under `/api/products`, `/api/storage-locations`, and `/api/batches` are mounted behind `requireAuth` in `index.js` and use `Cache-Control: no-store`. All accept Bearer tokens or cookies. See [PRODUCTS.md](./PRODUCTS.md), [STORAGE_LOCATIONS.md](./STORAGE_LOCATIONS.md), and [BATCHES.md](./BATCHES.md) for their request/response contracts. Batch intake includes its initial receipt movement; stock adjustments and movement history endpoints remain future work. Mount any future inventory router behind the shared guard, before the 404 handler:
 
 ```js
 import { requireAuth } from "./middleware/requireAuth.js";
