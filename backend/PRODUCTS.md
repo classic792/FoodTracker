@@ -1,6 +1,6 @@
 # Product API (FET-6)
 
-Products are catalog entries referenced by batches. All endpoints below require the staff session cookie established by `POST /api/auth/login`; browser clients must use `credentials: "include"`. See [AUTH.md](./AUTH.md) for authentication, cookie lifetime, and origin configuration. Product responses have `Cache-Control: no-store`.
+Products are catalog entries referenced by batches. All endpoints below require the Bearer token or staff session cookie established by `POST /api/auth/login`; browser clients using cookies must use `credentials: "include"`. See [AUTH.md](./AUTH.md) for authentication, Postman setup, token lifetime, and origin configuration. Product responses have `Cache-Control: no-store`.
 
 No product seeds, fixtures, schema changes, or migrations were added. Batch, storage-location, and stock-movement endpoints are not part of this feature.
 

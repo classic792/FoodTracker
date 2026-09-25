@@ -7,6 +7,7 @@ import { prisma, checkDatabaseConnection } from "./config/db.js";
 import { getAuthSettings } from "./config/auth.js";
 import authRoutes from "./routes/authRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
+import storageLocationRoutes from "./routes/storageLocationRoutes.js";
 import { requireAuth } from "./middleware/requireAuth.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import { httpError } from "./utils/errors.js";
@@ -17,10 +18,13 @@ const PORT = process.env.PORT || 5000;
 
 app.use(helmet());
 app.use(cors({ origin, credentials: true }));
-app.use(["/api/auth", "/api/products"], (req, res, next) => {
-  res.set("Cache-Control", "no-store");
-  next();
-});
+app.use(
+  ["/api/auth", "/api/products", "/api/storage-locations"],
+  (req, res, next) => {
+    res.set("Cache-Control", "no-store");
+    next();
+  },
+);
 app.use("/api", (req, res, next) => {
   if (
     !["GET", "HEAD", "OPTIONS"].includes(req.method) &&
@@ -55,6 +59,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/products", requireAuth, productRoutes);
+app.use("/api/storage-locations", requireAuth, storageLocationRoutes);
 
 app.use((req, res, next) =>
   next(httpError(404, "NOT_FOUND", "Endpoint not found.")),
