@@ -25,7 +25,12 @@ export const login = async (req, res, next) => {
       ...cookieOptions(),
       maxAge: ACCESS_TOKEN_SECONDS * 1000,
     });
-    res.status(200).json(result.user);
+    res.status(200).json({
+      ...result.user,
+      accessToken: result.token,
+      tokenType: "Bearer",
+      expiresIn: ACCESS_TOKEN_SECONDS,
+    });
   } catch (error) {
     next(error);
   }
