@@ -6,6 +6,8 @@ import { rateLimit } from "express-rate-limit";
 import { prisma, checkDatabaseConnection } from "./config/db.js";
 import { getAuthSettings } from "./config/auth.js";
 import authRoutes from "./routes/authRoutes.js";
+import productRoutes from "./routes/productRoutes.js";
+import { requireAuth } from "./middleware/requireAuth.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import { httpError } from "./utils/errors.js";
 
@@ -15,7 +17,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(helmet());
 app.use(cors({ origin, credentials: true }));
-app.use("/api/auth", (req, res, next) => {
+app.use(["/api/auth", "/api/products"], (req, res, next) => {
   res.set("Cache-Control", "no-store");
   next();
 });
@@ -51,20 +53,8 @@ app.use("/api/auth/login", (req, res, next) =>
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.json({ message: "FoodTracker Backend API is running" });
-});
-
-app.get("/health", async (req, res) => {
-  try {
-    await prisma.$queryRaw`SELECT 1`;
-    res.status(200).json({ status: "healthy", database: "connected" });
-  } catch {
-    res.status(503).json({ status: "unhealthy", database: "disconnected" });
-  }
-});
-
 app.use("/api/auth", authRoutes);
+app.use("/api/products", requireAuth, productRoutes);
 
 app.use((req, res, next) =>
   next(httpError(404, "NOT_FOUND", "Endpoint not found.")),

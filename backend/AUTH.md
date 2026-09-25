@@ -1,6 +1,6 @@
 # Staff authentication
 
-Staff are the only account type. There is no registration, role system, password reset, refresh token, or inventory CRUD in this change.
+Staff are the only account type. There is no registration, role system, password reset, or refresh token. Product endpoints now use this authentication; see [PRODUCTS.md](./PRODUCTS.md).
 
 ## Setup
 
@@ -60,9 +60,9 @@ All protected routes use `401 { "error": { "code": "UNAUTHORIZED", "message": "A
 
 Other centralized errors use the same envelope: `400 VALIDATION_ERROR`, `400 INVALID_JSON`, `413 PAYLOAD_TOO_LARGE`, `403 ORIGIN_FORBIDDEN`, `404 NOT_FOUND`, and `500 INTERNAL_ERROR`. Unexpected errors use a fixed public message. Passwords, JWTs, raw database errors, and stack traces are not returned or logged by auth handlers. Prisma query/error logging is disabled to avoid leaking seed credential data.
 
-## Future inventory routes
+## Inventory routes
 
-No inventory routes or stub are included. Unknown inventory URLs currently return the standard `404` and expose no inventory data. When adding products, batches, storage locations, and stock movements, mount their router behind the shared guard in `index.js`, before the 404 handler:
+All five product endpoints under `/api/products` are mounted behind `requireAuth` in `index.js` and use `Cache-Control: no-store`. See [PRODUCTS.md](./PRODUCTS.md) for their request/response contracts. Batches, storage locations, and stock movements remain future work. Mount any future inventory router behind the shared guard, before the 404 handler:
 
 ```js
 import { requireAuth } from "./middleware/requireAuth.js";
